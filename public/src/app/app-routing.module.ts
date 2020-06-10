@@ -7,7 +7,8 @@ import {SpymasterComponent} from './spymaster/spymaster.component';
 
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo:"movies" },
+  { path: '', pathMatch: 'full', redirectTo:"start" },
+  { path:'start', component: StartComponent},
   { path: 'home', component: HomeComponent},
   {path: 'spymaster', component: SpymasterComponent},
 
