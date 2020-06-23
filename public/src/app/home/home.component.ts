@@ -4,6 +4,7 @@ import { HttpService } from './../http.service';
 import { map, switchMap } from 'rxjs/operators';
 import { NgForm, Form } from '@angular/forms';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -12,24 +13,27 @@ import { NgForm, Form } from '@angular/forms';
 export class HomeComponent implements OnInit {
 //create class variables here
 // board of values we'll populate
-board: string[];
+// board: string[];
+
 
 
   constructor(
     private _route: ActivatedRoute,
     private _router:Router,
-    private _httpService: HttpService
+    private _httpService: HttpService,
   ) { }
 
   ngOnInit(){
+  }
+  // newBoard(){
+  //   //may only need to create a service that randomly creates a board
+  // }
+  // buildBoard(){
+  //   //use shared service to pass data between spymaster and home for board data
+  //   //ngrx is a library used to maintain states (aka can store data) betweeen components. so use that for the shared board data service
+  //   //may be overly complicated for a smaller app like this though(lots of boilerplate)
 
-  }
-  newBoard(){
-    //may only need to create a service that randomly creates a board
-  }
-  buildBoard(){
-    //use shared service to pass data between spymaster and home for board data
-  }
+  // }
 
 
 

@@ -8,9 +8,9 @@ import {SpymasterComponent} from './spymaster/spymaster.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo:"start" },
-  { path:'start', component: StartComponent},
-  { path: 'home', component: HomeComponent},
+  {path: 'home', component: HomeComponent},
   {path: 'spymaster', component: SpymasterComponent},
+  { path:'start', component: StartComponent},
 
   { path: '**', component: StartComponent }
 ];
