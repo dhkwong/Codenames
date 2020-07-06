@@ -11,7 +11,7 @@ import {BoardService} from '../board.service'
   styleUrls: ['./start.component.css']
 })
 export class StartComponent implements OnInit {
-
+  board:any[];
   constructor(
     private _route: ActivatedRoute,
     private _router:Router,
@@ -19,14 +19,19 @@ export class StartComponent implements OnInit {
     private _boardService:BoardService,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(){
+    this.startGame();
   }
   startGame(){
-    this._boardService.createBoard().subscribe({next :data=>{
-      //for testing purposes, data from newly created board
-      console.log("board data: "+data)
+    console.log("I'm in startGame");
+    this._boardService.createBoard().subscribe({
+      next : data=>{
+      //for testing purposes, print data from newly created board
+      //BUG: it makes the board, but gives the default board data for some reason.
+      console.log("board data: "+JSON.stringify(data))
+      this.board = data;
       //if successfully create board, route to home and start the game
-      this._router.navigate(['/home'])
+      // this._router.navigate(['/home'])
     },error: error=>{
       console.log("error in start component startGame: "+error)
     }

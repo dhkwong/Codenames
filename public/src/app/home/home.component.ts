@@ -3,6 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HttpService } from './../http.service';
 import { map, switchMap } from 'rxjs/operators';
 import { NgForm, Form } from '@angular/forms';
+import {BoardService} from '../board.service';
 
 
 @Component({

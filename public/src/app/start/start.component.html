@@ -1,5 +1,16 @@
 
 <p>start works!</p>
-<app-spymaster></app-spymaster>
-<app-home></app-home>
+<p>hi</p>
+
+<div *ngIf="board" >
+{{board[0]}}
+<div *ngFor='let val of board'>
+    {{val[2]}}
+   
+</div>
+<p>test board</p>
+
+</div>
+<!-- <app-spymaster></app-spymaster>
+<app-home></app-home> -->
 
