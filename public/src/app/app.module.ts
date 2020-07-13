@@ -7,8 +7,12 @@ import { HomeComponent } from './home/home.component';
 import { SpymasterComponent } from './spymaster/spymaster.component';
 import { StartComponent } from './start/start.component';
 
-import {HttpClientModule} from '@angular/common/http'
+import {HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms'; //allows ngforms
+import { StorageServiceModule } from 'ngx-webstorage-service';
+
+
+
 
 @NgModule({
   declarations: [
@@ -21,7 +25,8 @@ import { FormsModule } from '@angular/forms'; //allows ngforms
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    StorageServiceModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

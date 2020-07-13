@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { reduce } from 'rxjs/operators';
+//importing session storage
+import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +11,7 @@ import { reduce } from 'rxjs/operators';
 export class BoardService {
   //create starter board. the key reflects if the card is yellow, red, blue, or black. The Value reflects the word
 
-  private board = new BehaviorSubject([{ color: 'yellow', word: 'yellowtest', selected: false }, { color: 'red', word: 'redtest', selected: false }, { color: 'black', word: 'blacktest', selected: false }]);
+  private board = new BehaviorSubject([{ color: 'yellow', word: 'yellowtest', selected: false }, { color: 'red', word: 'redtest', selected: false },{ color: 'blue', word: 'bluetest', selected: false }, { color: 'black', word: 'blacktest', selected: false }]);
   //allows us to pull the board at any time by making it an observable returning data
   //e.g in spymaster
   // create local variable to hold the board
@@ -17,8 +20,6 @@ export class BoardService {
   // this.boardService.sharedBoard.subscribe(board => this.board = board)
   sharedBoard = this.board.asObservable();
   constructor() {
-    this.board[2] = { 0: 'test' }
-    console.log(this.board.value)
 
   }
   createBoard() {
@@ -88,6 +89,13 @@ export class BoardService {
     //BehaviorSubject from rxjs assigns new value through .next(newvalue)
     this.board.next(newBoard);
     //once the value is assigned, we can then call the updated board through sharedBoard by subscribing to it through our component
-
+  //may need sessionstorage
+  }
+  getBoard(){
+    console.log("board service getBoard()"+this.board.value)
+    return this.board;
+  }
+  setBoard(){
+    //SessionStorage
   }
 }

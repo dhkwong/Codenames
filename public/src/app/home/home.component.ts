@@ -16,15 +16,17 @@ export class HomeComponent implements OnInit {
 // board of values we'll populate
 // board: string[];
 
-
+  board: any[];
 
   constructor(
     private _route: ActivatedRoute,
     private _router:Router,
     private _httpService: HttpService,
+    private _boardService: BoardService,
   ) { }
 
   ngOnInit(){
+    this.getBoard();
   }
   // newBoard(){
   //   //may only need to create a service that randomly creates a board
@@ -35,6 +37,20 @@ export class HomeComponent implements OnInit {
   //   //may be overly complicated for a smaller app like this though(lots of boilerplate)
 
   // }
+  getBoard(){
+    this._boardService.getBoard().subscribe({
+      next: data=>{
+
+        this.board=data;
+        //unless we start through the startcomponent route, the behaviorSubject values revert to the default state, and the created deck values do not persist
+        // may need to use LocalStorage or SessionStorage. may need to npm i it. LocalStorage persists past window close, while SessionStorage does not. Then push LocalStorage to board value aka setBoard()
+        console.log("home component getBoard() this.board data: "+JSON.stringify(this.board))
+      }
+      ,error: error =>{
+        console.log("error in home component getBoard(): " + error)
+      }
+    })
+  }
 
 
 

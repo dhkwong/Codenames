@@ -26,14 +26,11 @@ export class StartComponent implements OnInit {
   startGame() {
     console.log("I'm in startGame");
     this._boardService.createBoard().subscribe({
-      // this._boardService.createBoard().subscribe({
       next: data => {
         //for testing purposes, print data from newly created board
-        //BUG: it makes the board, but gives the default board data for some reason.
         console.log("start component startgame() board data: " + JSON.stringify(data))
         this.board = data;
         console.log("this.board data: " + JSON.stringify(this.board));
-
         //if successfully create board, route to home and start the game
         this._router.navigate(['/home'])
       }, error: error => {
