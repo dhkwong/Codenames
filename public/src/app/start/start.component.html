@@ -1,16 +1,20 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
 <p>start works!</p>
 <p>hi</p>
+<!-- all this should be in home.component.html -->
+<div class="container bg-secondary" *ngIf="board">
 
-<div *ngIf="board" >
-{{board[0]}}
-<div *ngFor='let val of board'>
-    {{val[2]}}
-   
+    <div class="d-inline-block col-md-3 bg-primary" *ngFor='let card of board'>
+        <!-- card:{color:red, word: cardword, selected:false} -->
+
+        <div class="pb-5  pt-5 mb-2 mt-5 pl-5" [ngStyle]="{'background-color':card.color}">{{card.word}}
+            <p>{{card.selected}}</p>
+        </div>
+
+
+    </div>
+
+
 </div>
-<p>test board</p>
-
-</div>
-<!-- <app-spymaster></app-spymaster>
-<app-home></app-home> -->
-
