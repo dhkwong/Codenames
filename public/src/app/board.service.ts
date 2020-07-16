@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, throwError } from 'rxjs';
+import { BehaviorSubject, throwError, Observable } from 'rxjs';
 import { reduce } from 'rxjs/operators';
 //importing session storage
 import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
@@ -20,24 +20,29 @@ export class BoardService {
   //then pull the board data held within the service and assign that value to the board
   // this.boardService.sharedBoard.subscribe(board => this.board = board)
   sharedBoard = this.board.asObservable();
-  private sessionStorage: StorageService;
+  // private sessionStore: StorageService;
   constructor() {
     
   }
   updateBoard(newBoard: any[]) {
     //BehaviorSubject from rxjs assigns new value through .next(newvalue)
-    this.board.next(newBoard);
+    this.board.next(newBoard)
+
     //once the value is assigned, we can then call the updated board through sharedBoard by subscribing to it through our component
-  //may need sessionstorage
+  //store in sessionstorage
+    this.storeBoard();
   }
   getBoard(){
-    console.log("board service getBoard()"+this.board.value)
-    return this.board;
+    console.log("getBoard sessionStorage"+JSON.stringify(sessionStorage.getItem("boardSessionKey")))
+    this.board = JSON.parse(sessionStorage.getItem("boardSessionKey"))
+    console.log("board service getBoard()"+JSON.stringify(this.board))
+    //need to return this.sharedBoard instead of this.board, since sharedBoard is board BUT as an observable we can subscribe to in the component
+    return this.sharedBoard;
   }
   
   storeBoard(){
     //SessionStorage
-      this.sessionStorage.set("boardSessionKey",this.board.value);
+      sessionStorage.setItem("boardSessionKey",JSON.stringify(this.board.value));
       
   }
 
@@ -75,7 +80,7 @@ export class BoardService {
       // return array;
     }
 
-    //assign values to board. you can assign to any index location in an array in js. the values in between will just be undefined
+    //assign values to board. you can assign to any index location in an array in js. unassigned index locations are simply undefined
     //Assigning for RED cards 8 cards since they start second. The first assign should remove the default board at board[0]
     for (let num = 0; num < 8; num++) {
       let randIndex = numbers[num]
@@ -101,7 +106,9 @@ export class BoardService {
     console.log("board.service board: " + JSON.stringify(this.board.value));
     console.log("board.service tempboard: " + JSON.stringify(tempboard));
     this.board.next(tempboard);
-    return this.board
+    this.storeBoard()
+    console.log("board.service createBoard sessionStore: " + JSON.stringify(this.getBoard()));
+    return this.sharedBoard
   }
 
 

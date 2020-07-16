@@ -38,13 +38,16 @@ export class HomeComponent implements OnInit {
 
   // }
   getBoard(){
-    this._boardService.getBoard().subscribe({
+    this._boardService.getBoard()
+    //subscribe to wait for session key storage
+    .subscribe({
       next: data=>{
 
-        this.board=data;
+        // this.board=data;
         //unless we start through the startcomponent route, the behaviorSubject values revert to the default state, and the created deck values do not persist
         // may need to use LocalStorage or SessionStorage. may need to npm i it. LocalStorage persists past window close, while SessionStorage does not. Then push LocalStorage to board value aka setBoard()
-        console.log("home component getBoard() this.board data: "+JSON.stringify(this.board))
+        console.log("home component sessionStorage.getItem"+sessionStorage.getItem("boardSessionKey"))
+        this.board = JSON.parse(sessionStorage.getItem("boardSessionKey"))
       }
       ,error: error =>{
         console.log("error in home component getBoard(): " + error)
