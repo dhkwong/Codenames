@@ -1,16 +1,17 @@
 <p>home works!</p>
 <div class="container bg-secondary" *ngIf="board">
 
-        <div class="d-inline-block col-md-3 bg-primary" *ngFor='let card of board'>
-            <!-- card:{color:red, word: cardword, selected:false} -->
-    
-            <div class="pb-5  pt-5 mb-2 mt-5 pl-5 text-muted" [ngStyle]="{'background-color':card.color}">{{card.word}}
-                <p *ngIf="card.selected===true; else elseBlock">Content to render when condition is true.</p>
-                <ng-template #elseBlock>Content to render when condition is false.</ng-template>
-            </div>
-    
-    
+    <div class="d-inline-block col-md-3 bg-primary" *ngFor='let card of board'>
+        <!-- card:{color:red, word: cardword, selected:false} -->
+
+        <div class="pb-5  pt-5 mb-2 mt-5 pl-5 text-muted" ngClick="onClick(card.word)" [ngStyle]="{'background-color':card.color}">{{card.word}}
+            <p *ngIf="card.selected===true; else elseBlock">Card has been selected</p>
+            
+            <ng-template #elseBlock><p></p>Card has NOT been selected</ng-template>
         </div>
-    
-    
+
+
     </div>
+
+
+</div>

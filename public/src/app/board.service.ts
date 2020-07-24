@@ -8,42 +8,83 @@ import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
 @Injectable({
   providedIn: 'root'
 })
-export class BoardService {
-  //create starter board. the key reflects if the card is yellow, red, blue, or black. The Value reflects the word
 
-  private board = new BehaviorSubject([{ color: 'yellow', word: 'yellowtest', selected: false }, { color: 'red', word: 'redtest', selected: false },{ color: 'blue', word: 'bluetest', selected: false }, { color: 'black', word: 'blacktest', selected: false }]);
-  
-  //allows us to pull the board at any time by making it an observable returning data
-  //e.g in spymaster
-  // create local variable to hold the board
-  // board:string; OR board:any[] since you know it's a matrix of key:value pairs
-  //then pull the board data held within the service and assign that value to the board
+export class BoardService {
+  //store whose turn it is. Starts with blue, since blue has 9 cards and starts first
+  private turn = new BehaviorSubject("blue")
+  //create starter board. the key reflects if the card is yellow, red, blue, or black. The Value reflects the word
+  private board = new BehaviorSubject([{ color: 'yellow', word: 'yellowtest', selected: false }, { color: 'red', word: 'redtest', selected: false }, { color: 'blue', word: 'bluetest', selected: false }, { color: 'black', word: 'blacktest', selected: false }]);
+
+
   // this.boardService.sharedBoard.subscribe(board => this.board = board)
   sharedBoard = this.board.asObservable();
+  sharedTurn = this.turn.asObservable();
   // private sessionStore: StorageService;
   constructor() {
-    
+  }
+  //changes the player turn from blue to red and vice versa
+  getTurn() {
+    return this.sharedTurn;
+  }
+  nextTurn() {
+    this.sharedTurn.subscribe(turn => {
+      try {
+        //if blue or red, change behaviorsubject to the opposite
+        if (turn == 'blue') {
+          this.turn.next('red')
+          return true
+        } else if (turn == 'red') {
+          this.turn.next('blue')
+          return true
+        }
+      } catch (error) {
+        return throwError(error)
+      }
+    })
+  }
+  async chooseCard(index: any) {
+    await this.sharedBoard.subscribe(data => {
+      if (index > data.length) {
+        throwError("index chosen too large")
+      }
+    })
+
+    if (this.board[index].color == 'black') {
+      this.board[index].selected = true
+      return 'assassin'
+    } else if (this.board[index].color == 'red') {
+      this.board[index].selected = true
+      return 'red'
+    } else if (this.board[index].color == 'yellow') {
+      this.board[index].selected = true
+      return 'yellow'
+    } else if (this.board[index].color == 'blue') {
+      this.board[index].selected = true
+      return 'blue'
+    }
   }
   updateBoard(newBoard: any[]) {
     //BehaviorSubject from rxjs assigns new value through .next(newvalue)
     this.board.next(newBoard)
 
     //once the value is assigned, we can then call the updated board through sharedBoard by subscribing to it through our component
-  //store in sessionstorage
+    //store in sessionstorage
     this.storeBoard();
   }
-  getBoard(){
-    console.log("getBoard sessionStorage"+JSON.stringify(sessionStorage.getItem("boardSessionKey")))
+  getBoard() {
+    console.log("getBoard sessionStorage" + JSON.stringify(sessionStorage.getItem("boardSessionKey")))
+    //sessionStorage uses the window.sessionStorage instead of the ngx-webstorage service imported in app.module and injected in this service
     this.board = JSON.parse(sessionStorage.getItem("boardSessionKey"))
-    console.log("board service getBoard()"+JSON.stringify(this.board))
+    console.log("board service getBoard()" + JSON.stringify(this.board))
     //need to return this.sharedBoard instead of this.board, since sharedBoard is board BUT as an observable we can subscribe to in the component
     return this.sharedBoard;
   }
-  
-  storeBoard(){
+
+  storeBoard() {
     //SessionStorage
-      sessionStorage.setItem("boardSessionKey",JSON.stringify(this.board.value));
-      
+    //sessionStorage uses the window.sessionStorage instead of the ngx-webstorage service imported in app.module and injected in this service
+    sessionStorage.setItem("boardSessionKey", JSON.stringify(this.board.value));
+
   }
 
   createBoard() {
