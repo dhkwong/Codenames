@@ -11,7 +11,7 @@ import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
 
 export class BoardService {
   //store whose turn it is. Starts with blue, since blue has 9 cards and starts first
-  private turn = new BehaviorSubject("blue")
+  private turn = new BehaviorSubject('blue')
   //create starter board. the key reflects if the card is yellow, red, blue, or black. The Value reflects the word
   private board = new BehaviorSubject([{ color: 'yellow', word: 'yellowtest', selected: false }, { color: 'red', word: 'redtest', selected: false }, { color: 'blue', word: 'bluetest', selected: false }, { color: 'black', word: 'blacktest', selected: false }]);
 
@@ -23,19 +23,30 @@ export class BoardService {
   constructor() {
   }
   //changes the player turn from blue to red and vice versa
-  getTurn() {
+  getTurn(){
+    this.turn=JSON.parse(sessionStorage.getItem("turn"))
     return this.sharedTurn;
   }
+  storeTurn(){
+    sessionStorage.setItem("turn",JSON.stringify(this.turn.value));
+  }
   nextTurn() {
+
     this.sharedTurn.subscribe(turn => {
       try {
+        console.log("board.service turn nextTurn() method: "+turn)
         //if blue or red, change behaviorsubject to the opposite
         if (turn == 'blue') {
           this.turn.next('red')
+          this.storeTurn()
+          console.log("board.service turn nextTurn() method: "+turn)
           return true
         } else if (turn == 'red') {
           this.turn.next('blue')
-          return true
+          this.storeTurn()
+          console.log("board.service turn nextTurn() method: "+turn)
+          //what do I need to return here
+          return this.sharedTurn
         }
       } catch (error) {
         return throwError(error)
@@ -84,8 +95,8 @@ export class BoardService {
     //SessionStorage
     //sessionStorage uses the window.sessionStorage instead of the ngx-webstorage service imported in app.module and injected in this service
     sessionStorage.setItem("boardSessionKey", JSON.stringify(this.board.value));
-
   }
+
 
   createBoard() {
     //randomize words and numbers to randomly create a board pattern 
