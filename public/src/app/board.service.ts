@@ -24,34 +24,42 @@ export class BoardService {
   }
   //changes the player turn from blue to red and vice versa
   getTurn(){
-    this.turn=JSON.parse(sessionStorage.getItem("turn"))
+    this.turn.next(sessionStorage.getItem("turn"))
     return this.sharedTurn;
   }
   storeTurn(){
     sessionStorage.setItem("turn",JSON.stringify(this.turn.value));
   }
   nextTurn() {
-
-    this.sharedTurn.subscribe(turn => {
-      try {
-        console.log("board.service turn nextTurn() method: "+turn)
-        //if blue or red, change behaviorsubject to the opposite
-        if (turn == 'blue') {
-          this.turn.next('red')
-          this.storeTurn()
-          console.log("board.service turn nextTurn() method: "+turn)
-          return true
-        } else if (turn == 'red') {
-          this.turn.next('blue')
-          this.storeTurn()
-          console.log("board.service turn nextTurn() method: "+turn)
-          //what do I need to return here
-          return this.sharedTurn
-        }
-      } catch (error) {
-        return throwError(error)
-      }
-    })
+    let tempturn = sessionStorage.getItem("turn")
+    if(tempturn=="blue"){
+      sessionStorage.setItem("turn",'red');
+      return true
+    }else{
+      sessionStorage.setItem("turn",'blue');
+      return true
+    }
+    
+    // this.sharedTurn.subscribe(turn => {
+    //   try {
+    //     console.log("board.service turn nextTurn() method: "+turn)
+    //     //if blue or red, change behaviorsubject to the opposite
+    //     if (turn == 'blue') {
+    //       this.turn.next('red')
+    //       this.storeTurn()
+    //       console.log("board.service turn nextTurn() method: "+turn)
+    //       return true
+    //     } else if (turn == 'red') {
+    //       this.turn.next('blue')
+    //       this.storeTurn()
+    //       console.log("board.service turn nextTurn() method: "+turn)
+    //       //what do I need to return here
+    //       return this.sharedTurn
+    //     }
+    //   } catch (error) {
+    //     return throwError(error)
+    //   }
+    // })
   }
   async chooseCard(index: any) {
     await this.sharedBoard.subscribe(data => {
