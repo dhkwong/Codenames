@@ -11,16 +11,17 @@ import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
 
 export class BoardService {
   //store whose turn it is. Starts with blue, since blue has 9 cards and starts first
+  //may not need behaviorsubject for turn
   private turn = new BehaviorSubject('blue')
   //create starter board. the key reflects if the card is yellow, red, blue, or black. The Value reflects the word
   private board = new BehaviorSubject([{ color: 'yellow', word: 'yellowtest', selected: false }, { color: 'red', word: 'redtest', selected: false }, { color: 'blue', word: 'bluetest', selected: false }, { color: 'black', word: 'blacktest', selected: false }]);
-
-
+  
   // this.boardService.sharedBoard.subscribe(board => this.board = board)
   sharedBoard = this.board.asObservable();
   sharedTurn = this.turn.asObservable();
   // private sessionStore: StorageService;
   constructor() {
+    sessionStorage.setItem("turn", 'blue')
   }
   //changes the player turn from blue to red and vice versa
   getTurn(){
@@ -28,7 +29,7 @@ export class BoardService {
     return this.sharedTurn;
   }
   storeTurn(){
-    sessionStorage.setItem("turn",JSON.stringify(this.turn.value));
+    sessionStorage.setItem("turn",JSON.stringify(this.turn));
   }
   nextTurn() {
     let tempturn = sessionStorage.getItem("turn")

@@ -27,8 +27,8 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getBoard();
     this.getTurn();
+    this.getBoard();
     //gets turn. Converted to getTurn method
     // this.turn = this._boardService.getTurn().subscribe(data => {
     //   console.log("this.turn in home: " + JSON.stringify(data))

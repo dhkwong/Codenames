@@ -1,20 +1,3 @@
 
 <p>start works!</p>
 
-<!-- all this should be in home.component.html -->
-<div class="container bg-secondary" *ngIf="board">
-
-    <div class="d-inline-block col-md-3 bg-primary" *ngFor='let card of board'>
-        <!-- card:{color:red, word: cardword, selected:false} -->
-
-        <div class="pb-5  pt-5 mb-2 mt-5 pl-5 text-primary" [ngStyle]="{'background-color':card.color}">{{card.word}}
-            
-            <p *ngIf="card.selected ; else elseBlock">Content to render when condition is true.</p>
-            <ng-template #elseBlock>Content to render when condition is false.</ng-template>
-        </div>
-
-
-    </div>
-
-
-</div>
