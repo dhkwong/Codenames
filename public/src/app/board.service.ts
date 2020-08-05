@@ -40,7 +40,7 @@ export class BoardService {
       sessionStorage.setItem("turn",'blue');
       return true
     }
-    
+   
     // this.sharedTurn.subscribe(turn => {
     //   try {
     //     console.log("board.service turn nextTurn() method: "+turn)
@@ -86,8 +86,7 @@ export class BoardService {
   updateBoard(newBoard: any[]) {
     //BehaviorSubject from rxjs assigns new value through .next(newvalue)
     this.board.next(newBoard)
-
-    //once the value is assigned, we can then call the updated board through sharedBoard by subscribing to it through our component
+    
     //store in sessionstorage
     this.storeBoard();
   }
