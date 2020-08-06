@@ -56,9 +56,12 @@ export class HomeComponent implements OnInit {
         }
         // if player chooses wrong color, then switch turn
         //"red" != red "red"!=blue
-        else if (cardColor != this.turn) {
+        else if (cardColor !== this.turn) {
           console.log("hi: " + cardColor)
+          //change turn in boardservice/sessionstore
           this._boardService.nextTurn()
+          //refresh turn in component
+          this.getTurn()
           this._router.navigate(['/home'])
         }
       })
