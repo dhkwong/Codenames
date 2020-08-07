@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
         console.log(index)
         console.log("chooseCard() current turn: " + this.turn)
         console.log("ChooseCard() this.board[index].color: " + this.board[index].color)
-        if (cardcolor == 'yellow') {
+        if (JSON.stringify(cardcolor) === 'yellow') {
           //switch turn
           if (this._boardService.nextTurn() == true) {
             this.getTurn();
