@@ -61,6 +61,7 @@ export class BoardService {
     //     return throwError(error)
     //   }
     // })
+    //test
   }
   async chooseCard(index: any) {
     await this.sharedBoard.subscribe(data => {
