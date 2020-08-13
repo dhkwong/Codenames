@@ -62,6 +62,7 @@ export class HomeComponent implements OnInit {
           this._boardService.nextTurn()
           //refresh turn in component
           this.getTurn()
+          //refresh component
           this._router.navigate(['/home'])
         }
       })

@@ -69,11 +69,14 @@ export class BoardService {
 
       console.log("chooseCard service data: " + JSON.stringify(data))
       var tempboard: any[] = data
-      
+      console.log("this.board[index].word: "+ this.board[index].word)
       if (index > data.length || index < data.length) {
         throwError("index chosen out of bounds")
       }
-
+      //if card already selected, return something 
+      //
+      //like here. code here. right here
+      //YOU'RE NOT CHECKING TURN AND COMPARING WTF
       if (this.board[index].color == 'black') {
         this.board[index].selected = true
         return 'assassin'
