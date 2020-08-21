@@ -23,6 +23,7 @@ export class StartComponent implements OnInit {
     //just for testing purposes. When running, start game will activate through a click on the .html side
     this.startGame();
   }
+  //generate board and create turn
   startGame() {
     console.log("I'm in startGame");
     this._boardService.createBoard().subscribe({

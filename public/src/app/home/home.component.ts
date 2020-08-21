@@ -4,6 +4,7 @@ import { HttpService } from './../http.service';
 import { map, switchMap } from 'rxjs/operators';
 import { NgForm, Form } from '@angular/forms';
 import { BoardService } from '../board.service';
+import { throwError } from 'rxjs';
 
 
 @Component({
@@ -18,6 +19,8 @@ export class HomeComponent implements OnInit {
 
   board: any[];
   turn: any;
+  redscore: any;
+  bluescore: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -26,26 +29,39 @@ export class HomeComponent implements OnInit {
     private _boardService: BoardService,
   ) { }
 
-  ngOnInit() {
-    this.getTurn();
-    this.getBoard();
-    //gets turn. Converted to getTurn method
-    // this.turn = this._boardService.getTurn().subscribe(data => {
-    //   console.log("this.turn in home: " + JSON.stringify(data))
-    //   return data;
-    // })
+  async ngOnInit() {
+    await this.getScore()
+    await this.getTurn();
+    await this.getBoard();
   }
+  addScore(color) {
 
+    // let res = this._boardService.addscore(color)
+    // console.log("res is:" + res)
+    if (this._boardService.addscore(color)) {
+      
+      return this.getScore()
+    }
+    else {
+      this._router.navigate(['/start']).then(() => window.location.reload())
+    }
+  }
+  getScore() {
+    this.redscore = sessionStorage.getItem('redscore')
+    this.bluescore = sessionStorage.getItem('bluescore')
+    return true
+  }
   async chooseCard(word: any) {
     //finds index of the word in board
     var index = this.board.findIndex(x => x.word === word);
     var cardColor = this.board[index].color;
     await this._boardService.chooseCard(index)
       .then(cardcolor => {
-        
         console.log(index)
         console.log("chooseCard() current turn: " + this.turn)
         console.log("ChooseCard() this.board[index].color: " + this.board[index].color)
+        
+        //logic for checking turn vs card color chosen
         if (JSON.stringify(cardcolor) === 'yellow') {
           //switch turn
           if (this._boardService.nextTurn() == true) {
@@ -54,8 +70,11 @@ export class HomeComponent implements OnInit {
             this._router.navigate([`/home`])
           }
         }
-        // if player chooses wrong color, then switch turn
-        //"red" != red "red"!=blue
+        else if (cardColor === 'black') {
+          //else assassin and restart. Maybe have a win screen
+          this._router.navigate(['start'])
+            .then(() => window.location.reload());
+        }
         else if (cardColor !== this.turn) {
           console.log("cardColor in else if chooseCard home component: " + cardColor)
           //change turn in boardservice/sessionstore
@@ -65,13 +84,14 @@ export class HomeComponent implements OnInit {
           //refresh board
           this.getBoard()
           //refresh component
-          this._router.navigate(['/home'])
-        }else{
+          this._router.navigate([`/home`])
+        } else if (cardColor === this.turn) {
           //else then they chose the right color and we can just getboard.
+          this.addScore(cardcolor)
           // this.getTurn()
           this.getBoard()
           //refresh component
-          this._router.navigate(['/home'])
+          this._router.navigate([`/home`])
         }
       })
   }
@@ -79,13 +99,13 @@ export class HomeComponent implements OnInit {
     this._boardService.getTurn().subscribe(data => {
       try {
         console.log("this.turn in home: " + JSON.stringify(data))
-      this.turn = data
-      return true
+        this.turn = data
+        return true
       } catch (error) {
-        console.log("getTurn home component error: "+error)
+        console.log("getTurn home component error: " + error)
         return false
       }
-      
+
       // return JSON.stringify(data)
     })
   }
