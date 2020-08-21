@@ -91,7 +91,16 @@ export class HomeComponent implements OnInit {
           // this.getTurn()
           this.getBoard()
           //refresh component
+<<<<<<< HEAD
           this._router.navigate([`/home`])
+=======
+          this._router.navigate(['/home'])
+        } else if(cardColor === this.turn){
+          //select card in board service to change the card.selected attribute 
+          this._boardService.chooseCard(index)
+          //refresh values
+          this._router.navigate(['/home'])
+>>>>>>> 7234de8295b0b4e2071d2a7d736f9d8ae44dd69d
         }
       })
   }
