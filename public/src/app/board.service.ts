@@ -15,7 +15,7 @@ export class BoardService {
   private turn = new BehaviorSubject('blue')
   //create starter board. the key reflects if the card is yellow, red, blue, or black. The Value reflects the word
   private board = new BehaviorSubject([{ color: 'yellow', word: 'yellowtest', selected: false }, { color: 'red', word: 'redtest', selected: false }, { color: 'blue', word: 'bluetest', selected: false }, { color: 'black', word: 'blacktest', selected: false }]);
-  
+
   // this.boardService.sharedBoard.subscribe(board => this.board = board)
   sharedBoard = this.board.asObservable();
   sharedTurn = this.turn.asObservable();
@@ -24,23 +24,30 @@ export class BoardService {
     sessionStorage.setItem("turn", 'blue')
   }
   //changes the player turn from blue to red and vice versa
-  getTurn(){
-    this.turn.next(sessionStorage.getItem("turn"))
-    return this.sharedTurn;
+  //may be unneccesary with migration to session storage
+  getTurn() {
+    try {
+      this.turn.next(sessionStorage.getItem("turn"))
+    return this.sharedTurn
+    } catch (error) {
+      console.log("getTurn board service error: "+error)
+      return error
+    }
+    
   }
-  storeTurn(){
-    sessionStorage.setItem("turn",JSON.stringify(this.turn));
+  storeTurn() {
+    sessionStorage.setItem("turn", JSON.stringify(this.turn));
   }
   nextTurn() {
     let tempturn = sessionStorage.getItem("turn")
-    if(tempturn=="blue"){
-      sessionStorage.setItem("turn",'red');
+    if (tempturn == "blue") {
+      sessionStorage.setItem("turn", 'red');
       return true
-    }else{
-      sessionStorage.setItem("turn",'blue');
+    } else {
+      sessionStorage.setItem("turn", 'blue');
       return true
     }
-   
+
     // this.sharedTurn.subscribe(turn => {
     //   try {
     //     console.log("board.service turn nextTurn() method: "+turn)
@@ -61,32 +68,57 @@ export class BoardService {
     //     return throwError(error)
     //   }
     // })
+    //test
   }
   async chooseCard(index: any) {
     await this.sharedBoard.subscribe(data => {
-      if (index > data.length) {
-        throwError("index chosen too large")
-      }
-    })
+      //data is the board. we can re-store the board data after changing data
 
-    if (this.board[index].color == 'black') {
-      this.board[index].selected = true
-      return 'assassin'
-    } else if (this.board[index].color == 'red') {
-      this.board[index].selected = true
-      return 'red'
-    } else if (this.board[index].color == 'yellow') {
-      this.board[index].selected = true
-      return 'yellow'
-    } else if (this.board[index].color == 'blue') {
-      this.board[index].selected = true
-      return 'blue'
-    }
+      console.log("chooseCard service data: " + JSON.stringify(data))
+      var tempboard: any[] = data
+      console.log("this.board[index].word: "+ this.board[index].word)
+      // if (index > data.length || index < data.length) {
+      //   throwError("index chosen out of bounds")
+      // }
+      //if card already selected, return something 
+      //
+      //like here. code here. right here
+      //we don't need this many if statements. we can just return the color and change the selected variable. Maybe switch turns
+      // let tempturn = sessionStorage.getItem("turn")
+      //if (this.board[index].color!=tempturn||this.board[index].color === 'yellow'){
+      // this.nextTurn()
+      //return true
+      //else if(this.board[index].color === 'black'){
+      // return 'assassin' or false or something like that
+      //}
+      //}
+     if (this.board[index].color == 'black') {
+        this.board[index].selected = true
+        sessionStorage.setItem("boardSessionKey", JSON.stringify(this.board))
+        return 'assassin'
+      } else if (this.board[index].color == 'red') {
+        this.board[index].selected = true
+        console.log("testing selected in board service: "+ this.board[index].selected)
+        sessionStorage.setItem("boardSessionKey", JSON.stringify(this.board))
+        return 'red'
+      } else if (this.board[index].color == 'yellow') {
+        this.board[index].selected = true
+        sessionStorage.setItem("boardSessionKey", JSON.stringify(this.board))
+        return 'yellow'
+      } else if (this.board[index].color == 'blue') {
+        this.board[index].selected = true
+        sessionStorage.setItem("boardSessionKey", JSON.stringify(this.board))
+        return 'blue'
+      }
+
+      sessionStorage.setItem("boardSessionKey", JSON.stringify(data))
+    })
+    return true
   }
   updateBoard(newBoard: any[]) {
     //BehaviorSubject from rxjs assigns new value through .next(newvalue)
     this.board.next(newBoard)
-    
+
     //store in sessionstorage
     this.storeBoard();
   }
@@ -168,6 +200,7 @@ export class BoardService {
     this.board.next(tempboard);
     this.storeBoard()
     console.log("board.service createBoard sessionStore: " + JSON.stringify(this.getBoard()));
+
     return this.sharedBoard
   }
 

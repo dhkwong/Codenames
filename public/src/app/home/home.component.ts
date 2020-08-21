@@ -42,11 +42,11 @@ export class HomeComponent implements OnInit {
     var cardColor = this.board[index].color;
     await this._boardService.chooseCard(index)
       .then(cardcolor => {
-        //from the tests below, we can see that we're sending cardcolor correctly to the service. So the issue lies with how we're storing and then re-retrieving the turn we've gotten
+        
         console.log(index)
         console.log("chooseCard() current turn: " + this.turn)
         console.log("ChooseCard() this.board[index].color: " + this.board[index].color)
-        if (cardcolor == 'yellow') {
+        if (JSON.stringify(cardcolor) === 'yellow') {
           //switch turn
           if (this._boardService.nextTurn() == true) {
             this.getTurn();
@@ -57,11 +57,20 @@ export class HomeComponent implements OnInit {
         // if player chooses wrong color, then switch turn
         //"red" != red "red"!=blue
         else if (cardColor !== this.turn) {
-          console.log("hi: " + cardColor)
+          console.log("cardColor in else if chooseCard home component: " + cardColor)
           //change turn in boardservice/sessionstore
           this._boardService.nextTurn()
           //refresh turn in component
           this.getTurn()
+          //refresh board
+          this.getBoard()
+          //refresh component
+          this._router.navigate(['/home'])
+        }else{
+          //else then they chose the right color and we can just getboard.
+          // this.getTurn()
+          this.getBoard()
+          //refresh component
           this._router.navigate(['/home'])
         } else if(cardColor === this.turn){
           //select card in board service to change the card.selected attribute 
@@ -73,8 +82,15 @@ export class HomeComponent implements OnInit {
   }
   getTurn() {
     this._boardService.getTurn().subscribe(data => {
-      console.log("this.turn in home: " + JSON.stringify(data))
+      try {
+        console.log("this.turn in home: " + JSON.stringify(data))
       this.turn = data
+      return true
+      } catch (error) {
+        console.log("getTurn home component error: "+error)
+        return false
+      }
+      
       // return JSON.stringify(data)
     })
   }
