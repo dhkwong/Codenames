@@ -24,9 +24,16 @@ export class BoardService {
     sessionStorage.setItem("turn", 'blue')
   }
   //changes the player turn from blue to red and vice versa
+  //may be unneccesary with migration to session storage
   getTurn() {
-    this.turn.next(sessionStorage.getItem("turn"))
-    return this.sharedTurn;
+    try {
+      this.turn.next(sessionStorage.getItem("turn"))
+    return this.sharedTurn
+    } catch (error) {
+      console.log("getTurn board service error: "+error)
+      return error
+    }
+    
   }
   storeTurn() {
     sessionStorage.setItem("turn", JSON.stringify(this.turn));
@@ -70,24 +77,37 @@ export class BoardService {
       console.log("chooseCard service data: " + JSON.stringify(data))
       var tempboard: any[] = data
       console.log("this.board[index].word: "+ this.board[index].word)
-      if (index > data.length || index < data.length) {
-        throwError("index chosen out of bounds")
-      }
+      // if (index > data.length || index < data.length) {
+      //   throwError("index chosen out of bounds")
+      // }
       //if card already selected, return something 
       //
       //like here. code here. right here
-      //YOU'RE NOT CHECKING TURN AND COMPARING WTF
-      if (this.board[index].color == 'black') {
+      //we don't need this many if statements. we can just return the color and change the selected variable. Maybe switch turns
+      // let tempturn = sessionStorage.getItem("turn")
+      //if (this.board[index].color!=tempturn||this.board[index].color === 'yellow'){
+      // this.nextTurn()
+      //return true
+      //else if(this.board[index].color === 'black'){
+      // return 'assassin' or false or something like that
+      //}
+      //}
+     if (this.board[index].color == 'black') {
         this.board[index].selected = true
+        sessionStorage.setItem("boardSessionKey", JSON.stringify(this.board))
         return 'assassin'
       } else if (this.board[index].color == 'red') {
         this.board[index].selected = true
+        console.log("testing selected in board service: "+ this.board[index].selected)
+        sessionStorage.setItem("boardSessionKey", JSON.stringify(this.board))
         return 'red'
       } else if (this.board[index].color == 'yellow') {
         this.board[index].selected = true
+        sessionStorage.setItem("boardSessionKey", JSON.stringify(this.board))
         return 'yellow'
       } else if (this.board[index].color == 'blue') {
         this.board[index].selected = true
+        sessionStorage.setItem("boardSessionKey", JSON.stringify(this.board))
         return 'blue'
       }
 
