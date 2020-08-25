@@ -13,9 +13,6 @@ import { throwError } from 'rxjs';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  //create class variables here
-  // board of values we'll populate
-  // board: string[];
 
   board: any[];
   turn: any;
@@ -36,10 +33,7 @@ export class HomeComponent implements OnInit {
   }
   addScore(color) {
 
-    // let res = this._boardService.addscore(color)
-    // console.log("res is:" + res)
     if (this._boardService.addscore(color)) {
-      
       return this.getScore()
     }
     else {
@@ -47,8 +41,8 @@ export class HomeComponent implements OnInit {
     }
   }
   getScore() {
-    this.redscore = sessionStorage.getItem('redscore')
-    this.bluescore = sessionStorage.getItem('bluescore')
+    this.redscore = sessionStorage.getItem("redscore")
+    this.bluescore = sessionStorage.getItem("bluescore")
     return true
   }
   async chooseCard(word: any) {
@@ -60,7 +54,7 @@ export class HomeComponent implements OnInit {
         console.log(index)
         console.log("chooseCard() current turn: " + this.turn)
         console.log("ChooseCard() this.board[index].color: " + this.board[index].color)
-        
+
         //logic for checking turn vs card color chosen
         if (JSON.stringify(cardcolor) === 'yellow') {
           //switch turn
@@ -105,8 +99,6 @@ export class HomeComponent implements OnInit {
         console.log("getTurn home component error: " + error)
         return false
       }
-
-      // return JSON.stringify(data)
     })
   }
   getBoard() {
@@ -121,6 +113,10 @@ export class HomeComponent implements OnInit {
           console.log("error in home component getBoard(): " + error)
         }
       })
+  }
+
+  restart() {
+    this._router.navigate(['/start']).then(() => window.location.reload())
   }
 
 

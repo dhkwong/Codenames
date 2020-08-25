@@ -195,6 +195,7 @@ export class BoardService {
     console.log("board.service board: " + JSON.stringify(this.board.value));
     console.log("board.service tempboard: " + JSON.stringify(tempboard));
     this.board.next(tempboard);
+
     this.storeBoard()
     console.log("board.service createBoard sessionStore: " + JSON.stringify(this.getBoard()));
 

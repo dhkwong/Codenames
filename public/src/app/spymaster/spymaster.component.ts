@@ -11,20 +11,39 @@ import {BoardService} from '../board.service';
   styleUrls: ['./spymaster.component.css']
 })
 export class SpymasterComponent implements OnInit {
-  private board : any;
-  constructor(private _boardService : BoardService) { }
+  board : any[];
+  redscore:any;
+  bluescore: any;
+  turn: any;
+
+
+  constructor(
+    private _router: Router,
+    private _httpService: HttpService,
+    private _boardService: BoardService,
+    ) { }
 
   ngOnInit() {
-    this.updateBoard
-    this.makeBoard
+    this.getBoard()
+    this.updateScore()
   }
-  updateBoard(){
-    //get board data from service
-    this._boardService.sharedBoard.subscribe(board => this.board = board);
-    //populate board
+  getBoard() {
+    this._boardService.getBoard()
+      //subscribe to wait for session key storage
+      .subscribe({
+        next: data => {
+          console.log("spymaster component sessionStorage.getItem" + sessionStorage.getItem("boardSessionKey"))
+          this.board = JSON.parse(sessionStorage.getItem("boardSessionKey"))
+        }
+        , error: error => {
+          console.log("error in spymaster component getBoard(): " + error)
+        }
+      })
   }
-  makeBoard(){   
-    //build spymaster board here.
+  
+  updateScore(){
+    this.redscore = sessionStorage.getItem('redscore')
+    this.bluescore = sessionStorage.getItem('bluescore')
   }
 
 
