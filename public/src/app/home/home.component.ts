@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     private _httpService: HttpService,
     private _boardService: BoardService,
   ) { }
-
+    //BUG: numbers added ONLY if opposite color
   async ngOnInit() {
     await this.getScore()
     await this.getTurn();
@@ -36,9 +36,7 @@ export class HomeComponent implements OnInit {
     if (this._boardService.addscore(color)) {
       return this.getScore()
     }
-    else {
-      this._router.navigate(['/start']).then(() => window.location.reload())
-    }
+    
   }
   getScore() {
     this.redscore = sessionStorage.getItem("redscore")
@@ -62,7 +60,7 @@ export class HomeComponent implements OnInit {
             this.getTurn();
             //refresh component
             this._router.navigate([`/home`])
-          }
+          } 
         }
         else if (cardColor === 'black') {
           //else assassin and restart. Maybe have a win screen
@@ -71,6 +69,9 @@ export class HomeComponent implements OnInit {
         }
         else if (cardColor !== this.turn) {
           console.log("cardColor in else if chooseCard home component: " + cardColor)
+          //testing
+          this._boardService.addscore(cardColor)
+          this.getScore()
           //change turn in boardservice/sessionstore
           this._boardService.nextTurn()
           //refresh turn in component
@@ -79,10 +80,11 @@ export class HomeComponent implements OnInit {
           this.getBoard()
           //refresh component
           this._router.navigate([`/home`])
-        } else if (cardColor === this.turn) {
+        } else if(cardColor === this.turn){ 
           //else then they chose the right color and we can just getboard.
-          this.addScore(cardcolor)
-          // this.getTurn()
+          console.log("this turn")
+          this._boardService.addscore(this.turn)
+          this.getScore()
           this.getBoard()
           //refresh component
           this._router.navigate([`/home`])

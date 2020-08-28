@@ -21,7 +21,7 @@ export class StartComponent implements OnInit {
 
   ngOnInit() {
     //just for testing purposes. When running, start game will activate through a click on the .html side
-    this.startGame();
+    // this.startGame();
   }
   //generate board and create turn
   startGame() {

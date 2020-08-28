@@ -35,17 +35,16 @@ export class BoardService {
   addscore(color) {
     if (color === 'blue') {
       let score = sessionStorage.getItem('bluescore')
-      sessionStorage.setItem('bluescore',  1+score)
+      score = String(parseInt(score, 10) + 1)
+      sessionStorage.setItem('bluescore',  score)
       console.log("bluescore in service is: "+sessionStorage.getItem('bluescore'))
-      if(sessionStorage.getItem('bluescore')==='1'){
-
-        return true
-      }else{
-        return false
-      }
+      return true 
+      // sessionStorage.getItem('bluescore')
     }
     else if (color === 'red') {
-      sessionStorage.setItem('redscore', sessionStorage.getItem('redscore') + 1)
+      let score = sessionStorage.getItem('redscore')
+      score = String(parseInt(score, 10) + 1)
+      sessionStorage.setItem('redscore',  score)
       console.log("redscore in service is: "+sessionStorage.getItem('redscore'))
       return true
     } else if (color === 'yellow') {
@@ -120,7 +119,7 @@ export class BoardService {
     this.storeBoard();
   }
   getBoard() {
-    console.log("getBoard sessionStorage" + JSON.stringify(sessionStorage.getItem("boardSessionKey")))
+    // console.log("getBoard sessionStorage" + JSON.stringify(sessionStorage.getItem("boardSessionKey")))
     //sessionStorage uses the window.sessionStorage instead of the ngx-webstorage service imported in app.module and injected in this service
     this.board = JSON.parse(sessionStorage.getItem("boardSessionKey"))
     console.log("board service getBoard()" + JSON.stringify(this.board))

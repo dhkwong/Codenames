@@ -12,28 +12,77 @@
 <div *ngIf="bluescore" class="text-primary">
     <h1>Blue's score is: {{bluescore}}</h1>
 </div>
+<!-- winning block -->
+<div>
+    <div *ngIf="bluescore==9 || redscore==8; else gameblock">
+        <div *ngIf="redscore == 8">
+            <h1>Red Wins!</h1>
+        </div>
 
-<div class="container col-md-12 m-5" *ngIf="board">
+        <div *ngIf="bluescore == 9">
+            <h1>Blue Wins!</h1>
+        </div>
+        <div class="container col-md-12 m-5 bg-secondary" *ngIf="board">
 
-    <div class="d-inline-block col-md-3 pb-3 pl-2 bg-secondary" style="width: 18.499999995%" *ngFor='let card of board'>
-        <!-- card:{color:red, word: cardword, selected:false} -->
+            <div class="d-inline-block col-md-3 pb-3 pl-2 bg-secondary" style="width: 18.499999995%"
+                *ngFor='let card of board'>
 
-        <div *ngIf="card.selected===false; else elseBlock" (click)="chooseCard(card.word)"
-            class="bg-dark pb-5 pt-5 mb-2 mt-5 pl-5 text-muted rounded " >
+                <div *ngIf="card.selected===false; else elseBlock" class="pb-5 pt-5 mb-2 mt-5 pl-5 text-muted rounded "
+                    [ngStyle]="{'background-color':card.color}">
+                    {{card.word}}
+                </div>
+
+                <ng-template #elseBlock>
+                    <p class="pb-5  pt-5 mb-2 mt-5 pl-5 text-muted rounded" [ngStyle]="{'background-color':card.color}">
+                        <span class="text-success">{{card.word}} has been selected </span>
+                    </p>
+                </ng-template>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- gameplay block -->
+<ng-template #gameblock>
+
+    <div class="container col-md-12 m-5 bg-secondary" *ngIf="board">
+
+        <div class="d-inline-block col-md-3 pb-3 pl-2 bg-secondary" style="width: 18.499999995%"
+            *ngFor='let card of board'>
+            <!-- card:{color:red, word: cardword, selected:false} -->
+
             <!-- for card color to show, [ngStyle]="{'background-color':card.color}"> -->
+            <!-- working no color code -->
+            <!-- <div *ngIf="card.selected===false; else elseBlock" (click)="chooseCard(card.word)"
+            class="bg-dark pb-5 pt-5 mb-2 mt-5 pl-5 text-muted rounded " >
             {{card.word}}
             <ng-template #elseBlock>
                 <p>Card has NOT been selected</p>
             </ng-template>
+        </div> -->
+            <!-- keeping colors in for testing purposes -->
+            <div *ngIf="card.selected===false; else elseBlock" (click)="chooseCard(card.word)"
+                class="pb-5 pt-5 mb-2 mt-5 pl-5 text-muted rounded " [ngStyle]="{'background-color':card.color}">
+                {{card.word}}
+                <ng-template #elseBlock>
+                    <p>Card has NOT been selected</p>
+                </ng-template>
+            </div>
+
+            <ng-template #elseBlock>
+                <p class="pb-5  pt-5 mb-2 mt-5 pl-5 text-muted rounded" [ngStyle]="{'background-color':card.color}">
+                    <span class="text-success">{{card.word}} has been selected </span>
+                </p>
+            </ng-template>
+
         </div>
 
-        <ng-template #elseBlock>
-            <p class="pb-5  pt-5 mb-2 mt-5 pl-5 text-muted rounded" [ngStyle]="{'background-color':card.color}">
-                <span class="text-success">{{card.word}} has been selected</span>
-            </p>
-        </ng-template>
 
     </div>
 
-
-</div>
+</ng-template>
