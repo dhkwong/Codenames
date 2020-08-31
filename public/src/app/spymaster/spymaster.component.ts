@@ -27,6 +27,9 @@ export class SpymasterComponent implements OnInit {
     this.getBoard()
     this.updateScore()
   }
+  restart() {
+    this._router.navigate(['/start']).then(() => window.location.reload())
+  }
   getBoard() {
     this._boardService.getBoard()
       //subscribe to wait for session key storage

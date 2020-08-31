@@ -1,17 +1,47 @@
-<p>home works!</p>
-<a routerLink="/spymaster"><button class="btn btn-success pull-right"> Spymaster View</button></a>
-<p></p>
-<button type="button" (click)="restart()" class="btn btn-success pull-right"> Restart Game</button>
+<div class="container col-md-12 text-center">
+    <h1 class="text-secondary">
+        Codenames
+    </h1>
+</div>
+<hr class="background bg-dark">
+<div class="container col-md-12 text-center">
+        <h1 class="text-dark">
+            Players
+        </h1>
+    
+</div>
+<div class="container col-12">
+    <!-- routes -->
+    <div class="m-5">
+        <a routerLink="/spymaster"><button class="btn btn-success pull-right bg-danger"> Spymaster View</button></a>
+        <p></p>
+        <button type="button" (click)="restart()" class="btn btn-success pull-right"> Restart Game</button>
+        <button type="button" (click)="endTurn()" class="btn btn-success pull-right ml-2"> End turn </button>
+    </div>
+    <!-- scores -->
+    <p></p>
+    <div class="col-12 d-inline-block">
+        <div class="col-5 d-inline-block ">
+            <span *ngIf="redscore" class="d-inline text-danger col-2">
+                <h3 class="d-inline">Red: {{redscore}}/8</h3>
+            </span>
+            <h3 class="d-inline">
+                |
+            </h3>
 
-<div *ngIf="turn" class="text-primary">
-    <h1>Turn is: {{turn}}</h1>
+            <span *ngIf="bluescore" class="d-inline text-primary col-2">
+                <h3 class="d-inline">Blue: {{bluescore}}/9</h3>
+            </span>
+
+        </div>
+
+        <div *ngIf="turn" class="text-secondary col-2 d-inline-block ">
+            <h1 class=" d-inline">Turn is: {{turn}}</h1>
+
+        </div>
+    </div>
 </div>
-<div *ngIf="redscore" class="text-primary">
-    <h1>Red's score is: {{redscore}}</h1>
-</div>
-<div *ngIf="bluescore" class="text-primary">
-    <h1>Blue's score is: {{bluescore}}</h1>
-</div>
+
 <!-- winning block -->
 <div>
     <div *ngIf="bluescore==9 || redscore==8; else gameblock">
@@ -22,7 +52,7 @@
         <div *ngIf="bluescore == 9">
             <h1>Blue Wins!</h1>
         </div>
-        <div class="container col-md-12 m-5 bg-secondary" *ngIf="board">
+        <div class="container col-md-12 m-5 bg-secondary p-5" *ngIf="board">
 
             <div class="d-inline-block col-md-3 pb-3 pl-2 bg-secondary" style="width: 18.499999995%"
                 *ngFor='let card of board'>
@@ -58,21 +88,21 @@
 
             <!-- for card color to show, [ngStyle]="{'background-color':card.color}"> -->
             <!-- working no color code -->
-            <!-- <div *ngIf="card.selected===false; else elseBlock" (click)="chooseCard(card.word)"
+            <div *ngIf="card.selected===false; else elseBlock" (click)="chooseCard(card.word)"
             class="bg-dark pb-5 pt-5 mb-2 mt-5 pl-5 text-muted rounded " >
             {{card.word}}
             <ng-template #elseBlock>
                 <p>Card has NOT been selected</p>
             </ng-template>
-        </div> -->
+        </div>
             <!-- keeping colors in for testing purposes -->
-            <div *ngIf="card.selected===false; else elseBlock" (click)="chooseCard(card.word)"
+            <!-- <div *ngIf="card.selected===false; else elseBlock" (click)="chooseCard(card.word)"
                 class="pb-5 pt-5 mb-2 mt-5 pl-5 text-muted rounded " [ngStyle]="{'background-color':card.color}">
                 {{card.word}}
                 <ng-template #elseBlock>
                     <p>Card has NOT been selected</p>
                 </ng-template>
-            </div>
+            </div> -->
 
             <ng-template #elseBlock>
                 <p class="pb-5  pt-5 mb-2 mt-5 pl-5 text-muted rounded" [ngStyle]="{'background-color':card.color}">

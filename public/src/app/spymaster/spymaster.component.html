@@ -1,14 +1,42 @@
-<p>spymaster works!</p>
+<div class="container col-md-12 text-center">
+    <h1 class="text-secondary">
+        Codenames
+    </h1>
 
-<a routerLink="/home"><button class="btn btn-success pull-right" > Player View</button></a>
-<div *ngIf="turn" class="text-primary">
-    <h1>Turn is: {{turn}}</h1>
 </div>
-<div *ngIf="redscore" class="text-primary">
-    <h1>Red's score is: {{redscore}}</h1>
+<hr class="background bg-dark">
+<div class="container col-md-12 text-center">
+    <h1 class="text-dark">
+        Spymaster
+    </h1>
+    <p></p>
+    <button type="button" (click)="restart()" class="btn btn-success pull-right"> Restart Game</button>
+
 </div>
-<div *ngIf="bluescore" class="text-primary">
-    <h1>Blue's score is: {{bluescore}}</h1>
+<div>
+
+    <a routerLink="/home"><button class="m-5 col-1 d-inline btn btn-success pull-right"> Player View</button></a>
+    <p></p>
+    <div class="col-12 d-inline">
+        <div class="d-inline col-8">
+            <span *ngIf="redscore" class="d-inline text-danger col-2">
+                <h3 class="d-inline">Red: {{redscore}}/8</h3>
+            </span>
+            <h3 class="d-inline">
+                |
+            </h3>
+
+            <span *ngIf="bluescore" class="d-inline text-primary col-2">
+                <h3 class="d-inline">Blue: {{bluescore}}/9</h3>
+            </span>
+
+        </div>
+
+        <div *ngIf="turn" class="text-center text-secondary col-4 d-inline">
+            <h1 class=" d-inline">Turn is: {{turn}}</h1>
+
+        </div>
+    </div>
 </div>
 
 <div class="container col-md-12 m-5 bg-secondary" *ngIf="board">
@@ -16,8 +44,8 @@
     <div class="d-inline-block col-md-3 pb-3 pl-2 bg-secondary" style="width: 18.499999995%" *ngFor='let card of board'>
         <!-- card:{color:red, word: cardword, selected:false} -->
 
-        <div *ngIf="card.selected===false; else elseBlock"
-            class="pb-5  pt-5 mb-2 mt-5 pl-5 text-muted rounded" [ngStyle]="{'background-color':card.color}">
+        <div *ngIf="card.selected===false; else elseBlock" class="pb-5  pt-5 mb-2 mt-5 pl-5 text-muted rounded"
+            [ngStyle]="{'background-color':card.color}">
             {{card.word}}
             <ng-template #elseBlock>
                 <p>Card has NOT been selected</p>
@@ -25,8 +53,9 @@
         </div>
 
         <ng-template #elseBlock>
-            <p class="pb-5  pt-5 mb-2 mt-5 pl-5 text-muted rounded" [ngStyle]="{'background-color':card.color}">
-                <span class="bg-light">{{card.word}} has been selected</span>
+            <p class="pb-5 pt-5 mb-2 mt-5 pl-5 text-muted text- center rounded"
+                [ngStyle]="{'background-color':card.color}">
+                <span class="bg-light rounded">{{card.word}} has been selected</span>
             </p>
         </ng-template>
 

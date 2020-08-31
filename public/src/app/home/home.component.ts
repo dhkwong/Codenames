@@ -5,6 +5,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { NgForm, Form } from '@angular/forms';
 import { BoardService } from '../board.service';
 import { throwError } from 'rxjs';
+// import { error } from '@angular/compiler/src/util';
 
 
 @Component({
@@ -31,6 +32,17 @@ export class HomeComponent implements OnInit {
     await this.getTurn();
     await this.getBoard();
   }
+
+  endTurn(){
+      if(this._boardService.nextTurn()){
+        this.getTurn()
+        this._router.navigate(['/home'])
+      }
+      else{
+        return false
+      }
+  
+  }
   addScore(color) {
 
     if (this._boardService.addscore(color)) {
@@ -52,7 +64,7 @@ export class HomeComponent implements OnInit {
         console.log(index)
         console.log("chooseCard() current turn: " + this.turn)
         console.log("ChooseCard() this.board[index].color: " + this.board[index].color)
-
+        
         //logic for checking turn vs card color chosen
         if (JSON.stringify(cardcolor) === 'yellow') {
           //switch turn
