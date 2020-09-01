@@ -23,9 +23,10 @@ export class SpymasterComponent implements OnInit {
     private _boardService: BoardService,
     ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.getBoard()
     this.updateScore()
+    await this.getTurn()
   }
   restart() {
     this._router.navigate(['/start']).then(() => window.location.reload())
@@ -43,7 +44,18 @@ export class SpymasterComponent implements OnInit {
         }
       })
   }
-  
+  getTurn() {
+    this._boardService.getTurn().subscribe(data => {
+      try {
+        console.log("this.turn in home: " + JSON.stringify(data))
+        this.turn = data
+        return true
+      } catch (error) {
+        console.log("getTurn home component error: " + error)
+        return false
+      }
+    })
+  }
   updateScore(){
     this.redscore = sessionStorage.getItem('redscore')
     this.bluescore = sessionStorage.getItem('bluescore')

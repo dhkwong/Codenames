@@ -20,8 +20,8 @@
     </div>
     <!-- scores -->
     <p></p>
-    <div class="col-12 d-inline-block">
-        <div class="col-5 d-inline-block ">
+    <div class="col-11 d-inline-block">
+        <div class="col-5 mr-2 d-inline-block ">
             <span *ngIf="redscore" class="d-inline text-danger col-2">
                 <h3 class="d-inline">Red: {{redscore}}/8</h3>
             </span>
@@ -35,8 +35,8 @@
 
         </div>
 
-        <div *ngIf="turn" class="text-secondary col-2 d-inline-block ">
-            <h1 class=" d-inline">Turn is: {{turn}}</h1>
+        <div *ngIf="turn" class="text-secondary col-6 float-right text-right d-inline-block ">
+            <h2 class=" d-inline">Turn is: {{turn}}</h2>
 
         </div>
     </div>
@@ -52,7 +52,7 @@
         <div *ngIf="bluescore == 9">
             <h1>Blue Wins!</h1>
         </div>
-        <div class="container col-md-12 m-5 bg-secondary p-5" *ngIf="board">
+        <div class="container col-md-11 m-5 bg-secondary p-5" *ngIf="board">
 
             <div class="d-inline-block col-md-3 pb-3 pl-2 bg-secondary" style="width: 18.499999995%"
                 *ngFor='let card of board'>
@@ -80,7 +80,7 @@
 <!-- gameplay block -->
 <ng-template #gameblock>
 
-    <div class="container col-md-12 m-5 bg-secondary" *ngIf="board">
+    <div class="container col-md-11 m-5 bg-secondary" *ngIf="board">
 
         <div class="d-inline-block col-md-3 pb-3 pl-2 bg-secondary" style="width: 18.499999995%"
             *ngFor='let card of board'>

@@ -5,20 +5,23 @@
 
 </div>
 <hr class="background bg-dark">
-<div class="container col-md-12 text-center">
+<div class="mt-6 container col-md-12 text-center">
     <h1 class="text-dark">
         Spymaster
     </h1>
 
 </div>
 <div>
+    <div class="m-5">
 
-    <button type="button" (click)="restart()" class="btn btn-success pull-right"> Restart Game</button>
-    <a routerLink="/home"><button class="m-5 col-1 d-inline btn btn-success pull-right"> Player View</button></a>
+        <a routerLink="/home"><button class="d-inline btn btn-danger pull-right"> Player View</button></a>
+        <p></p>
+        <button type="button" (click)="restart()" class="btn btn-success pull-right"> Restart Game</button>
+    </div>
     <p></p>
-    <div class="col-12 d-inline">
-        <div class="d-inline col-8">
-            <span *ngIf="redscore" class="d-inline text-danger col-2">
+    <div class="col-11 d-inline-block">
+        <div class="col-5 mr-2 d-inline-block">
+            <span *ngIf="redscore" class="d-inline text-danger col-2 ">
                 <h3 class="d-inline">Red: {{redscore}}/8</h3>
             </span>
             <h3 class="d-inline">
@@ -31,14 +34,14 @@
 
         </div>
 
-        <div *ngIf="turn" class="text-center text-secondary col-4 d-inline">
-            <h1 class=" d-inline">Turn is: {{turn}}</h1>
+        <div *ngIf="turn" class="text-secondary col-6 float-right text-right d-inline-block">
+            <h2 class=" d-inline">Turn is: {{turn}}</h2>
 
         </div>
     </div>
 </div>
 
-<div class="container col-md-12 m-5 bg-secondary" *ngIf="board">
+<div class="container col-md-11 m-5 bg-secondary" *ngIf="board">
 
     <div class="d-inline-block col-md-3 pb-3 pl-2 bg-secondary" style="width: 18.499999995%" *ngFor='let card of board'>
         <!-- card:{color:red, word: cardword, selected:false} -->
