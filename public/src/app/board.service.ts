@@ -26,12 +26,13 @@ export class BoardService {
 
   // private sessionStore: StorageService;
   constructor() {
+  }
+
+  setStorage(){
     sessionStorage.setItem("turn", 'blue')
     sessionStorage.setItem('redscore', '0')
     sessionStorage.setItem('bluescore', '0')
   }
-  //changes the player turn from blue to red and vice versa
-  //may be unneccesary with migration to session storage
   addscore(color) {
     if (color === 'blue') {
       let score = sessionStorage.getItem('bluescore')

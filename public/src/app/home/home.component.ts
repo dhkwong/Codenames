@@ -44,7 +44,6 @@ export class HomeComponent implements OnInit {
   
   }
   addScore(color) {
-
     if (this._boardService.addscore(color)) {
       return this.getScore()
     }
@@ -76,8 +75,15 @@ export class HomeComponent implements OnInit {
         }
         else if (cardColor === 'black') {
           //else assassin and restart. Maybe have a win screen
-          this._router.navigate(['start'])
-            .then(() => window.location.reload());
+          if(this.turn==='blue'){
+            sessionStorage.setItem('redscore','8')
+            this._router.navigate([`/home`]).then(()=>window.location.reload())
+          }else if(this.turn ==='red'){
+            sessionStorage.setItem('bluescore','9')
+            this._router.navigate(['/home']).then(()=>window.location.reload())
+          }
+          // this._router.navigate(['start'])
+          //   .then(() => window.location.reload());
         }
         else if (cardColor !== this.turn) {
           console.log("cardColor in else if chooseCard home component: " + cardColor)

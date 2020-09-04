@@ -32,6 +32,8 @@ export class StartComponent implements OnInit {
         console.log("start component startgame() board data: " + JSON.stringify(data))
         this.board = data;
         console.log("this.board data: " + JSON.stringify(this.board));
+        //set score
+        this._boardService.setStorage()
         //if successfully create board, route to home and start the game
         this._router.navigate(['/home'])
       }, error: error => {
